@@ -33,14 +33,23 @@ exports.post_new_entry = (req, res, next) => {
 };
 
 exports.update = (req, res, next) => {
-  BookEntry.findByIdAndUpdate(
-    req.params.id,
+  BookEntry.findOneAndUpdate(
+    { _id: req.params.id },
     { $set: req.body },
     (err, bookEntry) => {
       if (err) {
         return next(err);
       }
-      res.send("Successfully changed.");
+      res.json(bookEntry);
     }
   );
+};
+
+exports.delete = (req, res, next) => {
+  BookEntry.findOneAndDelete({ _id: req.params.id }, (err, bookEntry) => {
+    if (err) {
+      return next(err);
+    }
+    res.json("Entry Deleted.");
+  });
 };
