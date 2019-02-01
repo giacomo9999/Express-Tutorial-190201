@@ -6,7 +6,8 @@ const bookEntry_controller = require("../controllers/bookEntry.controller");
 /* GET home page. */
 router.get("/", bookEntry_controller.nothing);
 router.get("/test", bookEntry_controller.test);
-router.get("/all", bookEntry_controller.display_all);
+router.get("/:id", bookEntry_controller.display_one);
+router.put("/:id/update", bookEntry_controller.update);
 router.post("/new", bookEntry_controller.post_new_entry);
 
 module.exports = router;

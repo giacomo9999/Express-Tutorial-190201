@@ -8,9 +8,15 @@ exports.nothing = (req, res) =>
 exports.test = (req, res) =>
   res.send("Greetings From bookEntry Controller Test.");
 
-// Display list of all entries
-exports.display_all = (req, res) =>
-  res.send("NOT IMPLEMENTED: List of all entries");
+// Display an entry by id
+exports.display_one = (req, res) => {
+  BookEntry.findById(req.params.id, (err, bookEntry) => {
+    if (err) {
+      return next(err);
+    }
+    res.json(bookEntry);
+  });
+};
 
 // Post new entry
 exports.post_new_entry = (req, res, next) => {
@@ -22,6 +28,19 @@ exports.post_new_entry = (req, res, next) => {
     if (err) {
       return next(err);
     }
-    res.send("Entry added successfully.");
+    res.json(newEntry);
   });
+};
+
+exports.update = (req, res, next) => {
+  BookEntry.findByIdAndUpdate(
+    req.params.id,
+    { $set: req.body },
+    (err, bookEntry) => {
+      if (err) {
+        return next(err);
+      }
+      res.send("Successfully changed.");
+    }
+  );
 };
